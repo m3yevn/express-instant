@@ -1,7 +1,45 @@
 {
   "port": 3000,
+  "bodyParser": {
+    "json": true,
+    "urlencoded": {
+      "extended": false
+    }
+  },
   "routes": {
-    "/": { "GET": { "res": "$params.id" } },
-    "/api": { "GET": { "res": "$params.id" } }
+    "/": {
+      "use": {
+        "type": "static",
+        "dir": "public"
+      }
+    },
+    "/api": {
+      "get": {
+        "type": "function",
+        "function": "res.send('Example API')"
+      },
+      "use": {
+        "type": "routes",
+        "routes": {
+          "/healthcheck": {
+            "get": {
+              "type": "function",
+              "function": "res.json({success: true, message: 'Example API is healthy' })"
+            },
+            "use": {
+              "type": "routes",
+              "routes": {
+                "/module": {
+                  "get": {
+                    "type": "module",
+                    "module": "example/module.healthcheck.js"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
