@@ -3,6 +3,8 @@ import express from "express";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
+import { signUp } from "./templates/signUp.js";
+import { signUpValidator } from "./templates/validations/signUp.validator.js";
 
 const options = {};
 const loadOptions = () => {
@@ -14,6 +16,10 @@ const loadOptions = () => {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const TEMPLATES = {
+  signUp: [signUpValidator, signUp],
+};
 
 loadOptions();
 
@@ -56,10 +62,18 @@ function setUpRouter(app, routes) {
   return setUpRouter;
 }
 
+async function setUpImport(methodHandler) {
+  const handlers = await import(methodHandler.import);
+  if (handlers?.default) {
+    return handlers?.default[methodHandler?.handler];
+  }
+  return handlers?.[methodHandler?.handler];
+}
+
 function setUpRoutes(app, routes) {
   Object.keys(routes).forEach((url) => {
     const methods = routes[url];
-    Object.keys(methods).forEach((methodName) => {
+    Object.keys(methods).forEach(async (methodName) => {
       const methodFunctionName = methodName.toLowerCase();
       const methodHandler = methods[methodName];
 
@@ -73,6 +87,10 @@ function setUpRoutes(app, routes) {
           ? setUpFunction(methodHandler?.function)
           : methodHandler?.type === "module"
           ? setUpModule(methodHandler?.module)
+          : methodHandler?.type === "import"
+          ? await setUpImport(methodHandler)
+          : methodHandler?.type === "template"
+          ? TEMPLATES[methodHandler?.template]
           : (req, res) => {
               res.json(methods[methodName]);
             }

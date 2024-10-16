@@ -37,6 +37,26 @@
                 }
               }
             }
+          },
+          "/v1": {
+            "use": {
+              "type": "routes",
+              "routes": {
+                "/signup": {
+                  "post": {
+                    "type": "template",
+                    "template": "signUp"
+                  }
+                },
+                "/signup/test": {
+                  "post": {
+                    "type": "import",
+                    "import": "../example/controllers/authController.js",
+                    "handler": "signUp"
+                  }
+                }
+              }
+            }
           }
         }
       }
