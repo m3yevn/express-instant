@@ -1,0 +1,21 @@
+{
+  "name": "apinstant",
+  "version": "1.0.0",
+  "description": "Low-code Instant Server",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js --config-file example/server.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "apinstant",
+    "low-code",
+    "instant",
+    "server"
+  ],
+  "author": "m3yevn",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
