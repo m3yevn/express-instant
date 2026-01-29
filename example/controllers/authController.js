@@ -3,7 +3,7 @@ class AuthController {
 
   async signUp(req, res) {
     console.log(req.body);
-    res.json({ success: true });
+    res.json({ success: true, test: true });
   }
 }
 

@@ -5,6 +5,8 @@ import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
 import { signUp } from "./templates/signUp.js";
 import { signUpValidator } from "./templates/validations/signUp.validator.js";
+import { configDotenv } from "dotenv";
+import dbService from "./templates/services/dbService.js";
 
 const options = {};
 const loadOptions = () => {
@@ -103,6 +105,12 @@ function setUpRoutes(app, routes) {
 
 export function startServer({ port }) {
   try {
+    if (configs?.dotenv) {
+      configDotenv();
+    }
+    if (configs?.mongoDB) {
+      dbService.createDB();
+    }
     const app = express();
 
     if (configs?.bodyParser?.json) {
