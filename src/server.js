@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import { signUp } from "./templates/signUp.js";
 import { signIn } from "./templates/signIn.js";
 import { health } from "./templates/health.js";
+import { listItems } from "./templates/listItems.js";
 import { signUpValidator } from "./templates/validations/signUp.validator.js";
 import { signInValidator } from "./templates/validations/signIn.validator.js";
 import { configDotenv } from "dotenv";
@@ -26,6 +27,7 @@ const TEMPLATES = {
   signUp: [signUpValidator, signUp],
   signIn: [signInValidator, signIn],
   health,
+  listItems,
 };
 
 loadOptions();

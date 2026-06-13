@@ -1,0 +1,28 @@
+{
+  "port": 3000,
+  "dotenv": true,
+  "bodyParser": {
+    "json": true,
+    "urlencoded": { "extended": true }
+  },
+  "routes": {
+    "/health": {
+      "GET": { "type": "template", "template": "health" }
+    },
+    "/auth/sign-up": {
+      "POST": { "type": "template", "template": "signUp" }
+    },
+    "/auth/sign-in": {
+      "POST": { "type": "template", "template": "signIn" }
+    },
+    "/items/:collection": {
+      "GET": { "type": "template", "template": "listItems" },
+      "POST": { "type": "template", "template": "listItems" }
+    },
+    "/items/:collection/:id": {
+      "GET": { "type": "template", "template": "listItems" },
+      "PUT": { "type": "template", "template": "listItems" },
+      "DELETE": { "type": "template", "template": "listItems" }
+    }
+  }
+}
