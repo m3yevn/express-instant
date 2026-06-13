@@ -47,6 +47,7 @@ Routes are declared in a JSON config file:
 |----------|--------|-------------|-------------|
 | `signUp` | POST | `username`, `password` | Create user, hash password, return JWT |
 | `signIn` | POST | `username`, `password` | Authenticate and return JWT |
+| `health` | GET | — | Returns `{ success, status, uptime }` |
 
 Example:
 
@@ -67,3 +68,4 @@ JWT_SECRET=your-secret-key
 ## Scripts
 
 - `npm run dev` — start with nodemon and example config
+- `npm test` — run integration tests (health + function routes)

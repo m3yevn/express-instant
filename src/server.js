@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
 import { signUp } from "./templates/signUp.js";
 import { signIn } from "./templates/signIn.js";
+import { health } from "./templates/health.js";
 import { signUpValidator } from "./templates/validations/signUp.validator.js";
 import { signInValidator } from "./templates/validations/signIn.validator.js";
 import { configDotenv } from "dotenv";
@@ -24,13 +25,16 @@ const __dirname = dirname(__filename);
 const TEMPLATES = {
   signUp: [signUpValidator, signUp],
   signIn: [signInValidator, signIn],
+  health,
 };
 
 loadOptions();
 
 let configs = JSON.parse(fs.readFileSync(__dirname + "/default.json", "utf-8"));
-if (!!options["config-file"]) {
-  fs.readFile(options["config-file"], "utf8", (err, data) => {
+const configFile = options["config-file"] || process.env.EXPRESS_INSTANT_CONFIG;
+
+if (configFile) {
+  fs.readFile(configFile, "utf8", (err, data) => {
     if (err) {
       console.error("Config file does not exist. Using default configs");
       return startServer({ port: configs.port || 3000 });

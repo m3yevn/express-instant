@@ -56,6 +56,12 @@
                     "template": "signIn"
                   }
                 },
+                "/health": {
+                  "get": {
+                    "type": "template",
+                    "template": "health"
+                  }
+                },
                 "/signup/test": {
                   "post": {
                     "type": "import",

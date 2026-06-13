@@ -1,0 +1,17 @@
+{
+  "port": 3099,
+  "routes": {
+    "/health": {
+      "get": {
+        "type": "template",
+        "template": "health"
+      }
+    },
+    "/api/ping": {
+      "get": {
+        "type": "function",
+        "function": "res.json({ success: true, message: 'pong' })"
+      }
+    }
+  }
+}
