@@ -1,7 +1,7 @@
-const SIGN_UP_FIELDS = ["username", "password"];
+const SIGN_IN_FIELDS = ["username", "password"];
 
-export const signUpValidator = (req, res, next) => {
-  const missingFields = SIGN_UP_FIELDS.filter((field) => {
+export const signInValidator = (req, res, next) => {
+  const missingFields = SIGN_IN_FIELDS.filter((field) => {
     return !Object.keys(req.body).includes(field);
   });
 
@@ -12,5 +12,6 @@ export const signUpValidator = (req, res, next) => {
       status: 400,
     });
   }
+
   next();
 };

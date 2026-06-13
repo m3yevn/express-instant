@@ -4,7 +4,9 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
 import { signUp } from "./templates/signUp.js";
+import { signIn } from "./templates/signIn.js";
 import { signUpValidator } from "./templates/validations/signUp.validator.js";
+import { signInValidator } from "./templates/validations/signIn.validator.js";
 import { configDotenv } from "dotenv";
 import dbService from "./templates/services/dbService.js";
 
@@ -21,6 +23,7 @@ const __dirname = dirname(__filename);
 
 const TEMPLATES = {
   signUp: [signUpValidator, signUp],
+  signIn: [signInValidator, signIn],
 };
 
 loadOptions();
@@ -103,13 +106,13 @@ function setUpRoutes(app, routes) {
   return app;
 }
 
-export function startServer({ port }) {
+export async function startServer({ port }) {
   try {
     if (configs?.dotenv) {
       configDotenv();
     }
     if (configs?.mongoDB) {
-      dbService.createDB();
+      await dbService.createDB();
     }
     const app = express();
 
@@ -124,9 +127,9 @@ export function startServer({ port }) {
 
     app.use((err, req, res, next) => {
       console.error(err);
-      res.status(err.status).json({
-        error: err.title,
-        message: err.message,
+      res.status(err.status || 500).json({
+        error: err.title || "SERVER_ERROR",
+        message: err.message || "An unexpected error occurred.",
       });
     });
 

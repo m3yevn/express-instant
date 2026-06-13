@@ -50,6 +50,12 @@
                     "template": "signUp"
                   }
                 },
+                "/signin": {
+                  "post": {
+                    "type": "template",
+                    "template": "signIn"
+                  }
+                },
                 "/signup/test": {
                   "post": {
                     "type": "import",
