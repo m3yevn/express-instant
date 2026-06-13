@@ -2,6 +2,8 @@
 
 Low-code JSON-configured Express server. Define routes, middleware, auth, and MongoDB connections through a config file instead of boilerplate.
 
+**Landing page:** Run `npm run dev` and open [http://localhost:3000](http://localhost:3000) — Express.js-inspired marketing site in `public/`.
+
 ## Quick start
 
 ```bash

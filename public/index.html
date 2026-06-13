@@ -1,18 +1,202 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Instant Express — JSON-configured Node.js API server</title>
+    <meta
+      name="description"
+      content="Instant Express is a low-code, JSON-configured web framework for Node.js. Define routes, auth, MongoDB, and middleware through a config file — no boilerplate. Built by Kevin Moe Myint Myat."
+    />
     <meta
       name="keywords"
-      content="Kevin Moe Myint Myat, m3yevn, Kevin Moe, Kevn Moe Myint Myat, Kevn Moe, Kevin Moe Myint, Moe Myint Myat"
+      content="instant express, express instant, low-code API, JSON config server, Node.js REST API, MongoDB auth template, Kevin Moe Myint Myat, m3yevn"
     />
     <meta name="author" content="Kevin Moe Myint Myat" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="canonical" href="https://instant-express.dev/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="" />
-    <title>Example Static Site</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Instant Express — JSON-configured Node.js server" />
+    <meta
+      property="og:description"
+      content="Low-code Express server. Routes, JWT auth, MongoDB — all from a JSON file."
+    />
+    <meta property="og:url" content="https://instant-express.dev/" />
+    <meta property="og:site_name" content="Instant Express" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Instant Express" />
+    <meta
+      name="twitter:description"
+      content="JSON-configured Express server with auth templates and MongoDB."
+    />
+    <meta name="twitter:creator" content="@m3yevn" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Instant Express",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Node.js",
+        "description": "Low-code JSON-configured Express server with built-in auth and MongoDB templates.",
+        "author": {
+          "@type": "Person",
+          "name": "Kevin Moe Myint Myat",
+          "alternateName": "Kevin Myat"
+        },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1>Example</h1>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="logo">
+          <span class="logo-mark">⚡</span>
+          <span class="logo-text">Instant<strong>Express</strong></span>
+        </a>
+        <nav class="nav">
+          <a href="#docs">Docs</a>
+          <a href="#templates">Templates</a>
+          <a href="https://github.com/m3yevn/instant-express" rel="noopener">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-inner">
+          <p class="version-badge">v1.0.0 · Node.js</p>
+          <h1>
+            Fast, unopinionated, minimalist<br />
+            <span class="accent">JSON-configured</span> server for Node.js
+          </h1>
+          <p class="hero-lead">
+            Clarity over complexity. Define routes, middleware, JWT auth, and MongoDB
+            through a single config file — steal the speed of
+            <a href="https://expressjs.com/en/" rel="noopener">Express</a>, skip the boilerplate.
+          </p>
+
+          <div class="install-block">
+            <code id="install-cmd">npm install express-instant</code>
+            <button type="button" class="copy-btn" data-copy="npm install express-instant">
+              Copy
+            </button>
+          </div>
+
+          <a href="#get-started" class="cta-btn">Get Started</a>
+
+          <pre class="code-hero" aria-label="Example server"><code><span class="kw">const</span> config = {
+  <span class="str">"port"</span>: <span class="num">3000</span>,
+  <span class="str">"mongoDB"</span>: <span class="kw">true</span>,
+  <span class="str">"routes"</span>: {
+    <span class="str">"/health"</span>: { <span class="str">"GET"</span>: { <span class="str">"type"</span>: <span class="str">"template"</span>, <span class="str">"template"</span>: <span class="str">"health"</span> } },
+    <span class="str">"/auth/sign-up"</span>: { <span class="str">"POST"</span>: { <span class="str">"type"</span>: <span class="str">"template"</span>, <span class="str">"template"</span>: <span class="str">"signUp"</span> } }
+  }
+};
+
+<span class="cmt">// node src/server.js --config-file my-api.json</span></code></pre>
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="container">
+          <h2 class="section-title">Clarity over complexity. For every developer.</h2>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>JSON APIs</h3>
+              <p>
+                Declare REST endpoints in JSON. Static files, nested routers, inline
+                functions, ES modules, or built-in templates — one config, zero ceremony.
+              </p>
+            </article>
+            <article class="feature-card">
+              <h3>Auth templates</h3>
+              <p>
+                Drop-in <code>signUp</code> and <code>signIn</code> handlers with bcrypt,
+                JWT, and MongoDB. Validators included. Production-shaped from day one.
+              </p>
+            </article>
+            <article class="feature-card">
+              <h3>Performance</h3>
+              <p>
+                Thin layer over Express — you keep the Node.js you know. No magic runtime,
+                no codegen. Just config → listen.
+              </p>
+            </article>
+            <article class="feature-card">
+              <h3>Templates</h3>
+              <p>
+                Composable handler templates: health checks, CRUD collections, MongoDB
+                services. Extend with your own modules like any Express middleware.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="get-started" class="get-started">
+        <div class="container">
+          <h2>Get started in 30 seconds</h2>
+          <ol class="steps">
+            <li><code>git clone</code> and <code>npm install</code></li>
+            <li>Copy <code>slices.example.json</code> → <code>my-api.json</code></li>
+            <li><code>node src/server.js --config-file my-api.json</code></li>
+          </ol>
+          <pre class="code-block"><code>curl http://localhost:3000/health
+<span class="cmt"># → { "success": true, "status": "healthy", "uptime": ... }</span></code></pre>
+        </div>
+      </section>
+
+      <section id="templates" class="templates">
+        <div class="container">
+          <h2>Built-in templates</h2>
+          <table class="template-table">
+            <thead>
+              <tr><th>Template</th><th>Method</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>health</code></td><td>GET</td><td>Health check + uptime</td></tr>
+              <tr><td><code>signUp</code></td><td>POST</td><td>Register user, hash password, JWT</td></tr>
+              <tr><td><code>signIn</code></td><td>POST</td><td>Authenticate and return JWT</td></tr>
+              <tr><td><code>listItems</code></td><td>CRUD</td><td>In-memory collection REST</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="docs" class="docs-cta">
+        <div class="container">
+          <h2>Read the docs</h2>
+          <p>See <code>README.md</code> and <code>SLICES.md</code> in the repo for vertical slices and config reference.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          Built by
+          <a href="https://kevinmoemyintmyat.vercel.app" rel="noopener">Kevin Moe Myint Myat</a>
+          · Inspired by the clarity of
+          <a href="https://expressjs.com/en/" rel="noopener">Express.js</a>
+        </p>
+        <p class="footer-copy">MIT · Open source</p>
+      </div>
+    </footer>
+
+    <script src="/main.js"></script>
   </body>
 </html>

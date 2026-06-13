@@ -1,17 +1,21 @@
 {
   "name": "express-instant",
   "version": "1.0.0",
-  "description": "Low-code Instant Express Server",
+  "description": "Low-code JSON-configured Express server — routes, JWT auth, MongoDB templates. Inspired by Express.js clarity.",
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon src/server.js --config-file example/server.json",
     "test": "node --test test/integration.test.js"
   },
   "keywords": [
-    "apinstant",
-    "low-code",
-    "instant",
-    "server"
+    "instant express",
+    "express-instant",
+    "low-code API",
+    "JSON config server",
+    "Node.js REST API",
+    "MongoDB JWT auth",
+    "Express.js alternative",
+    "Kevin Moe Myint Myat"
   ],
   "author": "m3yevn",
   "license": "ISC",

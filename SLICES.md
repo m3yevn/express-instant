@@ -16,7 +16,8 @@ JSON-configured Express server — drop in templates instead of hand-writing rou
 | # | Slice | Template to add |
 |---|-------|-----------------|
 | 3 | **List items** | `listItems` — in-memory CRUD collection |
-| 4 | **JWT guard** | `requireAuth` middleware template |
+| 4 | **Landing page** | Express.js-inspired marketing site in `public/` |
+| 5 | **JWT guard** | `requireAuth` middleware template |
 | 5 | **Mongo CRUD** | `mongoItems` — generic collection CRUD |
 | 6 | **Static SPA** | `staticSpa` — serve `public/` + fallback |
 | 7 | **Rate limit** | `rateLimit` wrapper template |
