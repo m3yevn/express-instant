@@ -1,5 +1,6 @@
 import fs from "fs";
 import express from "express";
+import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
@@ -48,6 +49,8 @@ if (configFile) {
     configs = JSON.parse(data);
     return startServer({ port: configs.port || 3000 });
   });
+} else if (!process.env.VERCEL) {
+  startServer({ port: configs.port || 3000 });
 }
 
 function setUpFunction(functionHandler) {
@@ -67,9 +70,15 @@ function setUpModule(moduleHandler) {
   return newFunction.call();
 }
 
-function setUpRouter(app, routes) {
+function resolveStaticDir(dir, rootDir) {
+  if (!dir) return dir;
+  if (path.isAbsolute(dir)) return dir;
+  return path.join(rootDir, dir);
+}
+
+function setUpRouter(app, routes, rootDir) {
   const router = express.Router();
-  const setUpRouter = setUpRoutes(router, routes);
+  const setUpRouter = setUpRoutes(router, routes, rootDir);
   return setUpRouter;
 }
 
@@ -81,7 +90,7 @@ async function setUpImport(methodHandler) {
   return handlers?.[methodHandler?.handler];
 }
 
-function setUpRoutes(app, routes) {
+function setUpRoutes(app, routes, rootDir = process.cwd()) {
   Object.keys(routes).forEach((url) => {
     const methods = routes[url];
     Object.keys(methods).forEach(async (methodName) => {
@@ -91,9 +100,9 @@ function setUpRoutes(app, routes) {
       app[methodFunctionName](
         url,
         methodHandler?.type === "static"
-          ? express.static(methodHandler?.dir)
+          ? express.static(resolveStaticDir(methodHandler?.dir, rootDir))
           : methodHandler?.type === "routes"
-          ? setUpRouter(app, methodHandler?.routes)
+          ? setUpRouter(app, methodHandler?.routes, rootDir)
           : methodHandler?.type === "function"
           ? setUpFunction(methodHandler?.function)
           : methodHandler?.type === "module"
@@ -112,33 +121,38 @@ function setUpRoutes(app, routes) {
   return app;
 }
 
+export async function createApp(serverConfigs, { rootDir = process.cwd() } = {}) {
+  if (serverConfigs?.dotenv) {
+    configDotenv();
+  }
+  if (serverConfigs?.mongoDB) {
+    await dbService.createDB();
+  }
+  const app = express();
+
+  if (serverConfigs?.bodyParser?.json) {
+    app.use(bodyParser.json());
+  }
+  if (serverConfigs?.bodyParser?.urlencoded) {
+    app.use(bodyParser.urlencoded(serverConfigs?.bodyParser?.urlencoded));
+  }
+
+  setUpRoutes(app, serverConfigs?.routes, rootDir);
+
+  app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(err.status || 500).json({
+      error: err.title || "SERVER_ERROR",
+      message: err.message || "An unexpected error occurred.",
+    });
+  });
+
+  return app;
+}
+
 export async function startServer({ port }) {
   try {
-    if (configs?.dotenv) {
-      configDotenv();
-    }
-    if (configs?.mongoDB) {
-      await dbService.createDB();
-    }
-    const app = express();
-
-    if (configs?.bodyParser?.json) {
-      app.use(bodyParser.json());
-    }
-    if (configs?.bodyParser?.urlencoded) {
-      app.use(bodyParser.urlencoded(configs?.bodyParser?.urlencoded));
-    }
-
-    setUpRoutes(app, configs?.routes);
-
-    app.use((err, req, res, next) => {
-      console.error(err);
-      res.status(err.status || 500).json({
-        error: err.title || "SERVER_ERROR",
-        message: err.message || "An unexpected error occurred.",
-      });
-    });
-
+    const app = await createApp(configs);
     const httpServer = app.listen(port, () => {
       console.log(`Server is listening on ${port}`);
     });
