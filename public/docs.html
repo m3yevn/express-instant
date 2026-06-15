@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Documentation — Instant Express</title>
+    <meta
+      name="description"
+      content="Instant Express documentation: install, JSON config, route types, templates, middleware, WebSockets, and environment variables."
+    />
+    <link rel="canonical" href="https://express-instant.vercel.app/docs" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="logo">
+          <span class="logo-mark">⚡</span>
+          <span class="logo-text">Instant<strong>Express</strong></span>
+        </a>
+        <nav class="nav">
+          <a href="/docs" aria-current="page">Docs</a>
+          <a href="/#templates">Templates</a>
+          <a href="https://github.com/m3yevn/express-instant" rel="noopener">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="docs-page">
+      <div class="container docs-layout">
+        <aside class="docs-sidebar">
+          <p class="docs-sidebar-title">On this page</p>
+          <nav class="docs-toc">
+            <a href="#install">Install</a>
+            <a href="#quick-start">Quick start</a>
+            <a href="#config">Config file</a>
+            <a href="#route-types">Route types</a>
+            <a href="#templates">Templates</a>
+            <a href="#middleware">Middleware</a>
+            <a href="#websockets">WebSockets</a>
+            <a href="#extend">Extend</a>
+            <a href="#env">Environment</a>
+            <a href="#api-demo">Live API</a>
+          </nav>
+        </aside>
+
+        <article class="docs-content">
+          <h1>Documentation</h1>
+          <p class="docs-lead">
+            <strong>Instant Express</strong> is a JSON-configured Express server. Define routes,
+            auth, CRUD, and custom handlers in one config file — ship a REST API without boilerplate.
+          </p>
+
+          <section id="install">
+            <h2>Install</h2>
+            <pre class="code-block"><code>npm install express-instant</code></pre>
+            <p>Requires <strong>Node.js 18+</strong>.</p>
+          </section>
+
+          <section id="quick-start">
+            <h2>Quick start</h2>
+            <h3>CLI</h3>
+            <pre class="code-block"><code>cp slices.example.json my-api.json
+cp .env.example .env
+npx express-instant --config-file my-api.json</code></pre>
+
+            <h3>Library</h3>
+            <pre class="code-block"><code>import { createApp, loadConfigFromFile } from "express-instant";
+
+const config = loadConfigFromFile("./my-api.json");
+const app = await createApp(config);
+app.listen(3000);</code></pre>
+
+            <p>
+              Add to <code>package.json</code>:
+              <code>"start": "express-instant --config-file my-api.json"</code>
+            </p>
+          </section>
+
+          <section id="config">
+            <h2>Config file</h2>
+            <p>Top-level options:</p>
+            <table class="template-table">
+              <thead>
+                <tr><th>Key</th><th>Type</th><th>Description</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>port</code></td><td>number</td><td>Listen port (default <code>3000</code>)</td></tr>
+                <tr><td><code>dotenv</code></td><td>boolean</td><td>Load <code>.env</code> on startup</td></tr>
+                <tr><td><code>cors</code></td><td>boolean | object</td><td>Enable CORS (pass options to <code>cors</code>)</td></tr>
+                <tr><td><code>mongoDB</code></td><td>boolean</td><td>Connect MongoDB via <code>MONGODB_STRING</code></td></tr>
+                <tr><td><code>bodyParser</code></td><td>object</td><td><code>{ "json": true, "urlencoded": { "extended": true } }</code></td></tr>
+                <tr><td><code>routes</code></td><td>object</td><td>Path → HTTP method → handler config</td></tr>
+                <tr><td><code>websockets</code></td><td>object</td><td>Path → WebSocket template config</td></tr>
+              </tbody>
+            </table>
+
+            <h3>Example — Todo API with auth</h3>
+            <pre class="code-block"><code>{
+  "port": 3000,
+  "dotenv": true,
+  "cors": true,
+  "mongoDB": true,
+  "bodyParser": { "json": true },
+  "routes": {
+    "/health": {
+      "GET": { "type": "template", "template": "health" }
+    },
+    "/auth/sign-up": {
+      "POST": { "type": "template", "template": "signUp" }
+    },
+    "/auth/sign-in": {
+      "POST": { "type": "template", "template": "signIn" }
+    },
+    "/items/:collection": {
+      "GET": { "type": "template", "template": "listItems" },
+      "POST": {
+        "type": "template",
+        "template": "listItems",
+        "middleware": ["requireAuth"]
+      }
+    }
+  }
+}</code></pre>
+            <p>See <a href="https://github.com/m3yevn/express-instant/blob/master/slices.example.json">slices.example.json</a> for a full copy-paste example.</p>
+          </section>
+
+          <section id="route-types">
+            <h2>Route types</h2>
+            <table class="template-table">
+              <thead>
+                <tr><th>Type</th><th>Description</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>template</code></td><td>Built-in handler (<code>health</code>, <code>signUp</code>, …)</td></tr>
+                <tr><td><code>function</code></td><td>Inline handler body as a string</td></tr>
+                <tr><td><code>module</code></td><td>Load a local <code>.js</code> module from disk</td></tr>
+                <tr><td><code>import</code></td><td>Import an ES module handler</td></tr>
+                <tr><td><code>static</code></td><td>Serve static files from a directory</td></tr>
+                <tr><td><code>routes</code></td><td>Nested router (sub-routes)</td></tr>
+              </tbody>
+            </table>
+
+            <h3>Middleware on routes</h3>
+            <pre class="code-block"><code>{
+  "POST": {
+    "type": "template",
+    "template": "listItems",
+    "middleware": ["requireAuth"]
+  }
+}</code></pre>
+          </section>
+
+          <section id="templates">
+            <h2>Built-in templates</h2>
+            <table class="template-table">
+              <thead>
+                <tr><th>Template</th><th>Description</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>health</code></td><td><code>{ success, status, uptime }</code></td></tr>
+                <tr><td><code>signUp</code></td><td>Register user → MongoDB + bcrypt + JWT</td></tr>
+                <tr><td><code>signIn</code></td><td>Login → JWT</td></tr>
+                <tr><td><code>listItems</code></td><td>In-memory CRUD on <code>/items/:collection</code></td></tr>
+                <tr><td><code>mongoItems</code></td><td>MongoDB CRUD on <code>/db/:collection</code> (requires <code>mongoDB: true</code>)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section id="middleware">
+            <h2>Built-in middleware</h2>
+            <table class="template-table">
+              <thead>
+                <tr><th>Name</th><th>Description</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>requireAuth</code></td><td>Validates <code>Authorization: Bearer &lt;jwt&gt;</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section id="websockets">
+            <h2>WebSockets</h2>
+            <pre class="code-block"><code>{
+  "websockets": {
+    "/ws": { "template": "echo" }
+  }
+}</code></pre>
+            <p>
+              Built-in <code>echo</code> template sends <code>{ "type": "connected" }</code> on connect
+              and echoes messages back.
+            </p>
+          </section>
+
+          <section id="extend">
+            <h2>Extend the library</h2>
+            <pre class="code-block"><code>import { registerTemplate, registerMiddleware } from "express-instant";
+
+registerTemplate("myHandler", (req, res) => res.json({ ok: true }));
+registerMiddleware("adminOnly", (req, res, next) => { /* ... */ next(); });</code></pre>
+          </section>
+
+          <section id="env">
+            <h2>Environment variables</h2>
+            <pre class="code-block"><code>MONGODB_STRING=mongodb://localhost:27017
+MONGODB_NAME=express-instant
+JWT_SECRET=change-me-in-production
+EXPRESS_INSTANT_CONFIG=./my-api.json
+PORT=3000</code></pre>
+          </section>
+
+          <section id="api-demo">
+            <h2>Live API demo</h2>
+            <p>This site runs Instant Express on Vercel. Try the health endpoint:</p>
+            <pre class="code-block"><code>curl https://express-instant.vercel.app/api/health</code></pre>
+            <p>
+              <a href="/api/health" rel="noopener">Open /api/health</a> in your browser.
+            </p>
+          </section>
+        </article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>
+          Built by
+          <a href="https://kevinmoemyintmyat.vercel.app" rel="noopener">Kevin Moe Myint Myat</a>
+          ·
+          <a href="https://github.com/m3yevn/express-instant" rel="noopener">GitHub</a>
+        </p>
+        <p class="footer-copy">MIT · Open source</p>
+      </div>
+    </footer>
+
+    <script src="/main.js"></script>
+  </body>
+</html>
