@@ -1,31 +1,37 @@
 # Instant Express — Vertical Slices
 
-JSON-configured Express server — drop in templates instead of hand-writing routes.
+JSON-configured Express library. npm: `express-instant` · brand: **Instant Express**.
 
-## Done
+## Done (v1.0.1)
 
-| Slice | Template | Route example |
-|-------|----------|---------------|
-| **Health** | `health` | `GET /health` |
-| **Auth sign-up** | `signUp` + validator | `POST /auth/sign-up` |
-| **Auth sign-in** | `signIn` + validator | `POST /auth/sign-in` |
-| **Integration tests** | `test/integration.test.js` | Spawns server, hits endpoints |
+| Slice | Status |
+|-------|--------|
+| **Library API** | `createApp`, `loadConfigFromFile`, `startServerFromConfig` |
+| **CLI** | `npx express-instant --config-file my-api.json` |
+| **Health** | `health` template |
+| **Auth** | `signUp`, `signIn` + validators + MongoDB + JWT |
+| **CRUD** | `listItems` in-memory collection REST |
+| **JWT guard** | `requireAuth` middleware in config |
+| **CORS** | `"cors": true` in config |
+| **Vercel** | Serverless entry via `src/vercel.js` |
+| **Landing** | Express-style site at `/` |
+| **Tests** | Integration tests for health + function routes |
 
-## Next slices
+## Next (v1.1+)
 
-| # | Slice | Template to add |
-|---|-------|-----------------|
-| 3 | **List items** | `listItems` — in-memory CRUD collection |
-| 4 | **Landing page** | Express.js-inspired marketing site in `public/` |
-| 5 | **JWT guard** | `requireAuth` middleware template |
-| 5 | **Mongo CRUD** | `mongoItems` — generic collection CRUD |
-| 6 | **Static SPA** | `staticSpa` — serve `public/` + fallback |
-| 7 | **Rate limit** | `rateLimit` wrapper template |
+| # | Slice |
+|---|-------|
+| 1 | `mongoItems` — generic MongoDB CRUD template |
+| 2 | WebSocket template |
+| 3 | JSON Schema config validation |
+| 4 | Rate limit middleware template |
+| 5 | Publish to npm registry |
 
 ## Quick start
 
 ```bash
 cp slices.example.json my-api.json
-node src/server.js --config-file my-api.json
+cp .env.example .env
+npx express-instant --config-file my-api.json
 npm test
 ```

@@ -70,7 +70,7 @@
         <nav class="nav">
           <a href="#docs">Docs</a>
           <a href="#templates">Templates</a>
-          <a href="https://github.com/m3yevn/instant-express" rel="noopener">GitHub</a>
+          <a href="https://gitlab.com/m3yevn/instant-express" rel="noopener">GitLab</a>
         </nav>
       </div>
     </header>
@@ -78,7 +78,7 @@
     <main>
       <section class="hero">
         <div class="container hero-inner">
-          <p class="version-badge">v1.0.0 · Node.js</p>
+          <p class="version-badge">v1.0.1 · npm: express-instant</p>
           <h1>
             Fast, unopinionated, minimalist<br />
             <span class="accent">JSON-configured</span> server for Node.js
@@ -107,7 +107,43 @@
   }
 };
 
-<span class="cmt">// node src/server.js --config-file my-api.json</span></code></pre>
+<span class="cmt">// npx express-instant --config-file my-api.json</span></code></pre>
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="container">
+          <h2 class="section-title">Not JSON Server. Not Nakama. Instant Express.</h2>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>vs JSON Server</h3>
+              <p>
+                JSON Server turns a <strong>data file</strong> into mock CRUD.
+                Instant Express turns a <strong>route config</strong> into a real API with auth templates and custom handlers.
+              </p>
+            </article>
+            <article class="feature-card">
+              <h3>vs PocketBase / Supabase</h3>
+              <p>
+                Those are full platforms with admin UIs. Instant Express is an
+                <code>npm install</code> library — you own Express, MongoDB, and your JSON config.
+              </p>
+            </article>
+            <article class="feature-card">
+              <h3>Library + CLI</h3>
+              <p>
+                Use <code>npx express-instant</code> or import
+                <code>createApp</code> in code. Register your own templates and middleware when you outgrow the defaults.
+              </p>
+            </article>
+            <article class="feature-card">
+              <h3>Escape hatches</h3>
+              <p>
+                Templates for 80% of routes. <code>function</code>, <code>module</code>, and
+                <code>import</code> handlers for the rest — no lock-in.
+              </p>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -151,9 +187,9 @@
         <div class="container">
           <h2>Get started in 30 seconds</h2>
           <ol class="steps">
-            <li><code>git clone</code> and <code>npm install</code></li>
+            <li><code>npm install express-instant</code></li>
             <li>Copy <code>slices.example.json</code> → <code>my-api.json</code></li>
-            <li><code>node src/server.js --config-file my-api.json</code></li>
+            <li><code>npx express-instant --config-file my-api.json</code></li>
           </ol>
           <pre class="code-block"><code>curl http://localhost:3000/health
 <span class="cmt"># → { "success": true, "status": "healthy", "uptime": ... }</span></code></pre>
@@ -172,6 +208,7 @@
               <tr><td><code>signUp</code></td><td>POST</td><td>Register user, hash password, JWT</td></tr>
               <tr><td><code>signIn</code></td><td>POST</td><td>Authenticate and return JWT</td></tr>
               <tr><td><code>listItems</code></td><td>CRUD</td><td>In-memory collection REST</td></tr>
+              <tr><td><code>requireAuth</code></td><td>middleware</td><td>JWT Bearer guard for protected routes</td></tr>
             </tbody>
           </table>
         </div>

@@ -1,73 +1,149 @@
-# express-instant
+# Instant Express
 
-Low-code JSON-configured Express server. Define routes, middleware, auth, and MongoDB connections through a config file instead of boilerplate.
+**Brand:** Instant Express · **npm:** [`express-instant`](https://www.npmjs.com/package/express-instant)
 
-**Landing page:** Run `npm run dev` and open [http://localhost:3000](http://localhost:3000) — Express.js-inspired marketing site in `public/`.
+JSON-configured Express server — define routes, auth, CRUD, and custom handlers in one config file. Ship a REST API without boilerplate.
 
-## Quick start
+**Live demo:** [instant-express.vercel.app](https://instant-express.vercel.app)
+
+## Why this exists
+
+| Tool | What it does |
+|------|----------------|
+| [JSON Server](https://github.com/typicode/json-server) | Mock API from a **data** JSON file |
+| [PocketBase](https://pocketbase.io/) | Full backend platform with admin UI |
+| **Instant Express** | **Route config** JSON + templates + escape hatches — you stay on Express |
+
+Not a game backend ([Nakama](https://heroiclabs.com/nakama/)). Not a mock server. A **composable library** for real small APIs.
+
+## Install
 
 ```bash
-npm install
-cp .env.example .env
-npm run dev
+npm install express-instant
 ```
 
-The dev script starts the server with `example/server.json`.
+## Quick start (CLI)
 
-## Configuration
+```bash
+cp slices.example.json my-api.json
+cp .env.example .env
+npx express-instant --config-file my-api.json
+```
 
-Routes are declared in a JSON config file:
+Or add to `package.json`:
+
+```json
+{
+  "scripts": {
+    "start": "express-instant --config-file my-api.json"
+  }
+}
+```
+
+## Quick start (library)
+
+```js
+import { createApp, loadConfigFromFile } from "express-instant";
+
+const config = loadConfigFromFile("./my-api.json");
+const app = await createApp(config);
+app.listen(3000);
+```
+
+## Example config — Todo API with auth
 
 ```json
 {
   "port": 3000,
   "dotenv": true,
+  "cors": true,
   "mongoDB": true,
   "bodyParser": { "json": true },
   "routes": {
-    "/api/v1/signup": {
-      "post": { "type": "template", "template": "signUp" }
+    "/health": { "GET": { "type": "template", "template": "health" } },
+    "/auth/sign-up": { "POST": { "type": "template", "template": "signUp" } },
+    "/auth/sign-in": { "POST": { "type": "template", "template": "signIn" } },
+    "/items/:collection": {
+      "GET": { "type": "template", "template": "listItems" },
+      "POST": {
+        "type": "template",
+        "template": "listItems",
+        "middleware": ["requireAuth"]
+      }
     }
   }
 }
 ```
 
-### Route types
+See [`slices.example.json`](./slices.example.json) for the full copy-paste example.
+
+## Route types
 
 | Type | Description |
 |------|-------------|
-| `static` | Serve files from a directory |
-| `function` | Inline handler string evaluated at runtime |
+| `template` | Built-in handler (`health`, `signUp`, `signIn`, `listItems`) |
+| `function` | Inline handler string |
 | `module` | Load a local `.js` module |
-| `import` | Import a handler from another file |
+| `import` | Import ES module handler |
+| `static` | Serve static files |
 | `routes` | Nested router |
-| `template` | Built-in handler (see below) |
+
+### Middleware on routes
+
+```json
+{
+  "POST": {
+    "type": "template",
+    "template": "listItems",
+    "middleware": ["requireAuth"]
+  }
+}
+```
 
 ## Built-in templates
 
-| Template | Method | Body fields | Description |
-|----------|--------|-------------|-------------|
-| `signUp` | POST | `username`, `password` | Create user, hash password, return JWT |
-| `signIn` | POST | `username`, `password` | Authenticate and return JWT |
-| `health` | GET | — | Returns `{ success, status, uptime }` |
+| Template | Description |
+|----------|-------------|
+| `health` | `{ success, status, uptime }` |
+| `signUp` | Register user → MongoDB + bcrypt + JWT |
+| `signIn` | Login → JWT |
+| `listItems` | In-memory CRUD on `/items/:collection` |
 
-Example:
+## Built-in middleware
 
-```bash
-curl -X POST http://localhost:3000/api/v1/signup \
-  -H "Content-Type: application/json" \
-  -d '{"username":"demo","password":"secret"}'
+| Middleware | Description |
+|------------|-------------|
+| `requireAuth` | Validates `Authorization: Bearer <jwt>` |
+
+## Extend the library
+
+```js
+import { registerTemplate, registerMiddleware } from "express-instant";
+
+registerTemplate("myHandler", (req, res) => res.json({ ok: true }));
+registerMiddleware("adminOnly", (req, res, next) => { /* ... */ next(); });
 ```
 
 ## Environment variables
 
 ```
-MONGODB_STRING=mongodb+srv://...
-MONGODB_NAME=myapp
-JWT_SECRET=your-secret-key
+MONGODB_STRING=mongodb://localhost:27017
+MONGODB_NAME=express-instant
+JWT_SECRET=change-me-in-production
+EXPRESS_INSTANT_CONFIG=./my-api.json
+PORT=3000
 ```
 
-## Scripts
+## Development
 
-- `npm run dev` — start with nodemon and example config
-- `npm test` — run integration tests (health + function routes)
+```bash
+git clone https://gitlab.com/m3yevn/instant-express.git
+cd instant-express
+npm install
+npm run dev
+npm test
+```
+
+## License
+
+MIT © [Kevin Moe Myint Myat](https://kevinmoemyintmyat.vercel.app)

@@ -1,24 +1,52 @@
 {
   "name": "express-instant",
-  "version": "1.0.0",
-  "description": "Low-code JSON-configured Express server — routes, JWT auth, MongoDB templates. Inspired by Express.js clarity.",
-  "main": "src/server.js",
+  "version": "1.0.1",
+  "description": "Instant Express — JSON-configured Express server with auth, CRUD templates, and custom handlers.",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "express-instant": "./bin/express-instant.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
-    "dev": "nodemon src/server.js --config-file example/server.json",
+    "start": "node bin/express-instant.js --config-file example/server.json",
+    "dev": "nodemon bin/express-instant.js --config-file example/server.json",
     "test": "node --test test/integration.test.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/m3yevn/instant-express.git"
+  },
+  "homepage": "https://instant-express.vercel.app",
+  "bugs": {
+    "url": "https://gitlab.com/m3yevn/instant-express/-/issues"
+  },
   "keywords": [
-    "instant express",
+    "instant-express",
     "express-instant",
-    "low-code API",
-    "JSON config server",
-    "Node.js REST API",
-    "MongoDB JWT auth",
-    "Express.js alternative",
-    "Kevin Moe Myint Myat"
+    "json-config",
+    "low-code-api",
+    "express",
+    "rest-api",
+    "jwt-auth",
+    "mongodb",
+    "nodejs",
+    "openapi-alternative"
   ],
-  "author": "m3yevn",
-  "license": "ISC",
+  "author": "Kevin Moe Myint Myat <m3.luvusomuch@gmail.com> (https://kevinmoemyintmyat.vercel.app)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
     "nodemon": "^3.1.7"
   },
@@ -30,6 +58,5 @@
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.9.0"
-  },
-  "type": "module"
+  }
 }

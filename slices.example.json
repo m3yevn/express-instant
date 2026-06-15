@@ -17,7 +17,11 @@
     },
     "/items/:collection": {
       "GET": { "type": "template", "template": "listItems" },
-      "POST": { "type": "template", "template": "listItems" }
+      "POST": {
+        "type": "template",
+        "template": "listItems",
+        "middleware": ["requireAuth"]
+      }
     },
     "/items/:collection/:id": {
       "GET": { "type": "template", "template": "listItems" },
