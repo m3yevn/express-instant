@@ -150,7 +150,7 @@ PORT=3000
 ## Development
 
 ```bash
-git clone https://github.com/kevinmoemyintmyat/express-instant.git
+git clone https://github.com/m3yevn/express-instant.git
 cd express-instant
 npm install
 npm run dev

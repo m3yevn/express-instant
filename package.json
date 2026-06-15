@@ -24,11 +24,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kevinmoemyintmyat/express-instant.git"
+    "url": "https://github.com/m3yevn/express-instant.git"
   },
   "homepage": "https://express-instant.vercel.app",
   "bugs": {
-    "url": "https://github.com/kevinmoemyintmyat/express-instant/issues"
+    "url": "https://github.com/m3yevn/express-instant/issues"
   },
   "keywords": [
     "instant-express",
