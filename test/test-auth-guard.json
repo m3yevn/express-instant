@@ -1,0 +1,15 @@
+{
+  "port": 3101,
+  "routes": {
+    "/protected": {
+      "get": {
+        "type": "function",
+        "function": "res.json({ user: req.user.username })",
+        "middleware": ["requireAuth"]
+      }
+    },
+    "/health": {
+      "get": { "type": "template", "template": "health" }
+    }
+  }
+}

@@ -2,6 +2,7 @@ import { signUp } from "./signUp.js";
 import { signIn } from "./signIn.js";
 import { health } from "./health.js";
 import { listItems } from "./listItems.js";
+import { mongoItems } from "./mongoItems.js";
 import { signUpValidator } from "./validations/signUp.validator.js";
 import { signInValidator } from "./validations/signIn.validator.js";
 import { requireAuth } from "../middleware/requireAuth.js";
@@ -11,6 +12,7 @@ const builtInTemplates = {
   signIn: [signInValidator, signIn],
   health,
   listItems,
+  mongoItems,
 };
 
 const builtInMiddleware = {

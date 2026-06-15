@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { validateConfig } from "./config/validateConfig.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_CONFIG_PATH = path.join(__dirname, "default.json");
@@ -22,7 +23,7 @@ export function resolveConfigPath(argv = process.argv) {
   return process.env.EXPRESS_INSTANT_CONFIG;
 }
 
-export function loadConfigFromFile(configFile, rootDir = process.cwd()) {
+export function loadConfigFromFile(configFile, rootDir = process.cwd(), validate = true) {
   const resolved = path.isAbsolute(configFile)
     ? configFile
     : path.join(rootDir, configFile);
@@ -36,13 +37,15 @@ export function loadConfigFromFile(configFile, rootDir = process.cwd()) {
     throw new Error(`Config file is empty: ${resolved}`);
   }
 
-  return JSON.parse(raw);
+  const config = JSON.parse(raw);
+  return validate ? validateConfig(config) : config;
 }
 
-export function loadConfig({ configFile, rootDir = process.cwd() } = {}) {
+export function loadConfig({ configFile, rootDir = process.cwd(), validate = true } = {}) {
   const pathToLoad = configFile || resolveConfigPath();
   if (pathToLoad) {
-    return loadConfigFromFile(pathToLoad, rootDir);
+    return loadConfigFromFile(pathToLoad, rootDir, validate);
   }
-  return loadDefaultConfig();
+  const config = loadDefaultConfig();
+  return validate ? validateConfig(config) : config;
 }

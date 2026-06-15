@@ -1,31 +1,31 @@
 # Instant Express — Vertical Slices
 
-JSON-configured Express library. npm: `express-instant` · brand: **Instant Express**.
+JSON-configured Express library. **npm:** `express-instant` · **folder:** `express-instant`
 
-## Done (v1.0.1)
+## Done (v1.1.0)
 
 | Slice | Status |
 |-------|--------|
-| **Library API** | `createApp`, `loadConfigFromFile`, `startServerFromConfig` |
-| **CLI** | `npx express-instant --config-file my-api.json` |
-| **Health** | `health` template |
-| **Auth** | `signUp`, `signIn` + validators + MongoDB + JWT |
-| **CRUD** | `listItems` in-memory collection REST |
-| **JWT guard** | `requireAuth` middleware in config |
-| **CORS** | `"cors": true` in config |
-| **Vercel** | Serverless entry via `src/vercel.js` |
-| **Landing** | Express-style site at `/` |
-| **Tests** | Integration tests for health + function routes |
+| Library API | `createApp`, `loadConfigFromFile`, `startServerFromConfig` |
+| CLI | `npx express-instant --config-file my-api.json` |
+| Config validation | JSON Schema + route type checks |
+| Health | `health` template |
+| Auth | `signUp`, `signIn` + MongoDB + JWT |
+| In-memory CRUD | `listItems` |
+| MongoDB CRUD | `mongoItems` |
+| JWT guard | `requireAuth` middleware |
+| WebSockets | `echo` template via `websockets` config |
+| CORS | `"cors": true` |
+| Tests | health, CRUD, requireAuth, auth service |
+| Vercel | `express-instant.vercel.app` |
 
-## Next (v1.1+)
+## Next (v1.2+)
 
 | # | Slice |
 |---|-------|
-| 1 | `mongoItems` — generic MongoDB CRUD template |
-| 2 | WebSocket template |
-| 3 | JSON Schema config validation |
-| 4 | Rate limit middleware template |
-| 5 | Publish to npm registry |
+| 1 | Rate limit middleware |
+| 2 | OpenAPI export from config |
+| 3 | Plugin ecosystem docs |
 
 ## Quick start
 

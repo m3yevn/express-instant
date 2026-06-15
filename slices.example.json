@@ -1,6 +1,8 @@
 {
   "port": 3000,
   "dotenv": true,
+  "cors": true,
+  "mongoDB": true,
   "bodyParser": {
     "json": true,
     "urlencoded": { "extended": true }
@@ -25,8 +27,20 @@
     },
     "/items/:collection/:id": {
       "GET": { "type": "template", "template": "listItems" },
-      "PUT": { "type": "template", "template": "listItems" },
-      "DELETE": { "type": "template", "template": "listItems" }
+      "PUT": { "type": "template", "template": "listItems", "middleware": ["requireAuth"] },
+      "DELETE": { "type": "template", "template": "listItems", "middleware": ["requireAuth"] }
+    },
+    "/db/:collection": {
+      "GET": { "type": "template", "template": "mongoItems" },
+      "POST": { "type": "template", "template": "mongoItems", "middleware": ["requireAuth"] }
+    },
+    "/db/:collection/:id": {
+      "GET": { "type": "template", "template": "mongoItems" },
+      "PUT": { "type": "template", "template": "mongoItems", "middleware": ["requireAuth"] },
+      "DELETE": { "type": "template", "template": "mongoItems", "middleware": ["requireAuth"] }
     }
+  },
+  "websockets": {
+    "/ws": { "template": "echo" }
   }
 }

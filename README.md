@@ -4,7 +4,7 @@
 
 JSON-configured Express server — define routes, auth, CRUD, and custom handlers in one config file. Ship a REST API without boilerplate.
 
-**Live demo:** [instant-express.vercel.app](https://instant-express.vercel.app)
+**Live demo:** [express-instant.vercel.app](https://express-instant.vercel.app)
 
 ## Why this exists
 
@@ -108,6 +108,19 @@ See [`slices.example.json`](./slices.example.json) for the full copy-paste examp
 | `signUp` | Register user → MongoDB + bcrypt + JWT |
 | `signIn` | Login → JWT |
 | `listItems` | In-memory CRUD on `/items/:collection` |
+| `mongoItems` | MongoDB CRUD on `/db/:collection` (requires `mongoDB: true`) |
+
+## WebSockets
+
+```json
+{
+  "websockets": {
+    "/ws": { "template": "echo" }
+  }
+}
+```
+
+Built-in `echo` template sends `{ type: "connected" }` on connect and echoes messages back.
 
 ## Built-in middleware
 
@@ -137,8 +150,8 @@ PORT=3000
 ## Development
 
 ```bash
-git clone https://gitlab.com/m3yevn/instant-express.git
-cd instant-express
+git clone https://github.com/kevinmoemyintmyat/express-instant.git
+cd express-instant
 npm install
 npm run dev
 npm test

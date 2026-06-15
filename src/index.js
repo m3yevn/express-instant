@@ -11,4 +11,9 @@ export {
   builtInTemplates,
   builtInMiddleware,
 } from "./templates/registry.js";
+export { validateConfig } from "./config/validateConfig.js";
+export {
+  registerWebSocket,
+  builtInWebSockets,
+} from "./websockets/registry.js";
 export { setupRoutes } from "./routes/setupRoutes.js";

@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Instant Express server config",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+    "dotenv": { "type": "boolean" },
+    "mongoDB": { "type": "boolean" },
+    "cors": {
+      "oneOf": [{ "type": "boolean" }, { "type": "object" }]
+    },
+    "bodyParser": {
+      "type": "object",
+      "properties": {
+        "json": { "type": "boolean" },
+        "urlencoded": {
+          "oneOf": [{ "type": "boolean" }, { "type": "object" }]
+        }
+      }
+    },
+    "routes": { "type": "object" },
+    "websockets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["template"],
+        "properties": {
+          "template": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

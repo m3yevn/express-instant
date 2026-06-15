@@ -1,0 +1,13 @@
+{
+  "port": 3100,
+  "bodyParser": { "json": true },
+  "routes": {
+    "/health": {
+      "get": { "type": "template", "template": "health" }
+    },
+    "/items/:collection": {
+      "GET": { "type": "template", "template": "listItems" },
+      "POST": { "type": "template", "template": "listItems" }
+    }
+  }
+}

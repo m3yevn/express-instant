@@ -8,6 +8,7 @@ import {
   getMiddlewareRegistry,
   getTemplateRegistry,
 } from "./templates/registry.js";
+import { setupWebSockets } from "./websockets/setupWebSockets.js";
 
 export async function createApp(serverConfigs, { rootDir = process.cwd() } = {}) {
   if (serverConfigs?.dotenv) {
@@ -53,8 +54,21 @@ export async function startServerFromConfig(
   const listenPort =
     port ?? serverConfigs?.port ?? process.env.PORT ?? 3000;
   const app = await createApp(serverConfigs, { rootDir });
-  const httpServer = app.listen(listenPort, () => {
-    console.log(`Instant Express listening on http://localhost:${listenPort}`);
+  const httpServer = await new Promise((resolve, reject) => {
+    const server = app.listen(listenPort, () => resolve(server));
+    server.once("error", reject);
   });
-  return { httpServer, app };
+  const address = httpServer.address();
+  const boundPort =
+    typeof address === "object" && address ? address.port : listenPort;
+
+  if (!process.env.VERCEL) {
+    console.log(`Instant Express listening on http://localhost:${boundPort}`);
+  }
+
+  if (serverConfigs?.websockets) {
+    setupWebSockets(httpServer, serverConfigs.websockets);
+  }
+
+  return { httpServer, app, port: boundPort };
 }

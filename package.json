@@ -1,7 +1,7 @@
 {
   "name": "express-instant",
-  "version": "1.0.1",
-  "description": "Instant Express — JSON-configured Express server with auth, CRUD templates, and custom handlers.",
+  "version": "1.1.0",
+  "description": "Instant Express — JSON-configured Express server with auth, CRUD templates, WebSockets, and custom handlers.",
   "type": "module",
   "main": "./src/index.js",
   "exports": {
@@ -20,15 +20,15 @@
   "scripts": {
     "start": "node bin/express-instant.js --config-file example/server.json",
     "dev": "nodemon bin/express-instant.js --config-file example/server.json",
-    "test": "node --test test/integration.test.js"
+    "test": "node --test --test-concurrency=1 test/integration.test.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/m3yevn/instant-express.git"
+    "url": "https://github.com/kevinmoemyintmyat/express-instant.git"
   },
-  "homepage": "https://instant-express.vercel.app",
+  "homepage": "https://express-instant.vercel.app",
   "bugs": {
-    "url": "https://gitlab.com/m3yevn/instant-express/-/issues"
+    "url": "https://github.com/kevinmoemyintmyat/express-instant/issues"
   },
   "keywords": [
     "instant-express",
@@ -39,8 +39,8 @@
     "rest-api",
     "jwt-auth",
     "mongodb",
-    "nodejs",
-    "openapi-alternative"
+    "websocket",
+    "nodejs"
   ],
   "author": "Kevin Moe Myint Myat <m3.luvusomuch@gmail.com> (https://kevinmoemyintmyat.vercel.app)",
   "license": "MIT",
@@ -48,15 +48,18 @@
     "node": ">=18"
   },
   "devDependencies": {
+    "mongodb-memory-server": "^10.1.4",
     "nodemon": "^3.1.7"
   },
   "dependencies": {
+    "ajv": "^8.17.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.9.0"
+    "mongodb": "^6.9.0",
+    "ws": "^8.18.0"
   }
 }

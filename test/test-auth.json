@@ -1,0 +1,17 @@
+{
+  "port": 3102,
+  "dotenv": false,
+  "mongoDB": true,
+  "bodyParser": { "json": true },
+  "routes": {
+    "/health": {
+      "get": { "type": "template", "template": "health" }
+    },
+    "/auth/sign-up": {
+      "post": { "type": "template", "template": "signUp" }
+    },
+    "/auth/sign-in": {
+      "post": { "type": "template", "template": "signIn" }
+    }
+  }
+}
