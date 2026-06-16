@@ -19,13 +19,18 @@ JSON-configured Express library. **npm:** `express-instant` · **folder:** `expr
 | Tests | health, CRUD, requireAuth, auth service |
 | Vercel | `express-instant.vercel.app` |
 
-## Next (v1.2+)
+## Done (v1.2.0)
+
+| Slice | Status |
+|-------|--------|
+| Rate limit | `rateLimit` middleware — per-route via JSON config |
+
+## Next (v1.3+)
 
 | # | Slice |
 |---|-------|
-| 1 | Rate limit middleware |
-| 2 | OpenAPI export from config |
-| 3 | Plugin ecosystem docs |
+| 1 | OpenAPI export from config |
+| 2 | Plugin ecosystem docs |
 
 ## Quick start
 

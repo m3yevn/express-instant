@@ -1,4 +1,4 @@
-import { test, before, after, describe } from "node:test";
+import { test, before, beforeEach, after, describe } from "node:test";
 import assert from "node:assert/strict";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -136,6 +136,46 @@ describe("requireAuth middleware", () => {
     const json = await res.json();
     assert.equal(res.status, 200);
     assert.equal(json.user, "demo");
+  });
+});
+
+describe("rateLimit middleware", () => {
+  before(async () => {
+    process.env.RATE_LIMIT_MAX = "2";
+    process.env.RATE_LIMIT_WINDOW_MS = "60000";
+    await startInProcess("test/test-rate-limit.json", 0);
+  });
+
+  beforeEach(async () => {
+    const { resetRateLimit } = await import("../src/middleware/rateLimit.js");
+    resetRateLimit();
+  });
+
+  after(async () => {
+    delete process.env.RATE_LIMIT_MAX;
+    delete process.env.RATE_LIMIT_WINDOW_MS;
+    await stopInProcess();
+  });
+
+  test("allows requests under limit", async () => {
+    const res = await fetch(`${baseUrl}/limited`);
+    assert.equal(res.status, 200);
+  });
+
+  test("returns 429 when exceeded", async () => {
+    await fetch(`${baseUrl}/limited`);
+    await fetch(`${baseUrl}/limited`);
+    const res = await fetch(`${baseUrl}/limited`);
+    assert.equal(res.status, 429);
+    const json = await res.json();
+    assert.equal(json.error, "RATE_LIMITED");
+  });
+
+  test("does not rate limit open routes", async () => {
+    for (let i = 0; i < 5; i++) {
+      const res = await fetch(`${baseUrl}/open`);
+      assert.equal(res.status, 200);
+    }
   });
 });
 

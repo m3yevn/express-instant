@@ -1,6 +1,6 @@
 {
   "name": "express-instant",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Instant Express — JSON-configured Express server with auth, CRUD templates, WebSockets, and custom handlers.",
   "type": "module",
   "main": "./src/index.js",

@@ -6,6 +6,7 @@ import { mongoItems } from "./mongoItems.js";
 import { signUpValidator } from "./validations/signUp.validator.js";
 import { signInValidator } from "./validations/signIn.validator.js";
 import { requireAuth } from "../middleware/requireAuth.js";
+import { rateLimit } from "../middleware/rateLimit.js";
 
 const builtInTemplates = {
   signUp: [signUpValidator, signUp],
@@ -17,6 +18,7 @@ const builtInTemplates = {
 
 const builtInMiddleware = {
   requireAuth,
+  rateLimit,
 };
 
 const customTemplates = {};
