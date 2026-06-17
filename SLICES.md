@@ -25,11 +25,17 @@ JSON-configured Express library. **npm:** `express-instant` · **folder:** `expr
 |-------|--------|
 | Rate limit | `rateLimit` middleware — per-route via JSON config |
 
-## Next (v1.3+)
+## Done (v1.3.0)
+
+| Slice | Status |
+|-------|--------|
+| OpenAPI export | `npx express-instant --config-file my-api.json --export-openapi spec.json` |
+
+## Next (v1.4+)
 
 | # | Slice |
 |---|-------|
-| 1 | OpenAPI export from config |
+| 1 | Serve `/openapi.json` at runtime |
 | 2 | Plugin ecosystem docs |
 
 ## Quick start

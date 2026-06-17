@@ -12,6 +12,7 @@ export {
   builtInMiddleware,
 } from "./templates/registry.js";
 export { validateConfig } from "./config/validateConfig.js";
+export { exportOpenApi } from "./openapi/exportOpenApi.js";
 export {
   registerWebSocket,
   builtInWebSockets,

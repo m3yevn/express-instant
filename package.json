@@ -1,6 +1,6 @@
 {
   "name": "express-instant",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Instant Express — JSON-configured Express server with auth, CRUD templates, WebSockets, and custom handlers.",
   "type": "module",
   "main": "./src/index.js",
@@ -20,7 +20,7 @@
   "scripts": {
     "start": "node bin/express-instant.js --config-file example/server.json",
     "dev": "nodemon bin/express-instant.js --config-file example/server.json",
-    "test": "node --test --test-concurrency=1 test/integration.test.js"
+    "test": "node --test --test-concurrency=1 test/integration.test.js test/openapi.test.js"
   },
   "repository": {
     "type": "git",
